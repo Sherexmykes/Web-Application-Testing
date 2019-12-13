@@ -1,59 +1,57 @@
-import React, {useState} from 'react';
+import React from 'react';
+import Display from './Display'
 
 
-export const addStrikes = currentStrike =>{
-    if (currentStrike >=2) {
-        return 0;
+
+class Dashboard extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {
+            strike: 0,
+            ball: 0
+        }
     }
-    else{
-        return currentStrike + 1;
+    resetStrike = () =>{ return this.state.strike > 2 ? this.setState({strike: 0}) : null}
+    foulHandler = () => {
+        return (
+        this.setState({strike: this.state.strike  === 0  ? + 1 : this.state.strike + 2}),
+        this.state.strike === 2 ? this.setState({ strike: 2 }) : null,
+        this.state.strike === 1 ? this.setState({strike: 2}) : null
+        )
     }
-};
-
-export const addBallCount = currentBall =>{
-    if(currentBall>=3){
-        return 0;
+    strikeHandler = () => {return this.setState({ strike: this.state.strike + 1 })}
+    
+    resetBall = () => {return this.state.ball > 3 ? this.setState({ ball: 0 }) : null}
+    BallHandler = () => {return this.setState({ ball: this.state.ball + 1 })}
+    hitHandler = () => {
+        return this.setState({
+            strike: 0,
+            ball: 0
+        })
     }
-    else{
-        return currentBall + 1;
+
+
+    render() {
+        return (
+            <div>
+                
+               
+                <Display
+                strike={this.state.strike}
+                ball={this.state.ball}
+                foulHandler={this.foulHandler}
+                resetStrikes={this.resetStrike}
+                BallHandler={this.BallHandler}
+                resetBall={this.resetBall}
+                hitHandler={this.hitHandler}
+                strikeHandler={this.strikeHandler}
+                resetStrike={this.resetStrike}/>
+
+            </div>
+        )
     }
-};
 
-export const addFouls = currentStrike =>{
-    if(currentStrike >= 2){
-        return currentStrike;
-    }
-    else{
-        return currentStrike + 1;
-    }
-};
-
-export const hits = currentValue =>{
-    return currentValue = 0;
-};
-
-function Dashboard(){
-    const [strikes, setStrikes]=useState(0);
-    const [ball, setBall]=useState(0);
-    return(
-        <div>
-            <button
-            className='strike-button'
-             onClick={()=>setStrikes(addStrikes(strikes))}>Strike</button>
-
-            <button
-            className='ballcount-button'
-            onClick={()=>setBall(addBallCount(ball))}>Ball</button>
-
-            <button
-            className='foul-button'
-            onClick={()=>setStrikes(addFouls(strikes))}>Foul</button>
-
-            <button
-            className='hit-button'
-            onClick={()=>setStrikes(hits(strikes), setBall(hits(ball)))}>Hit</button>
-        </div>
-    );
 }
 
 export default Dashboard;

@@ -1,21 +1,35 @@
 import React from 'react';
-import { addBallCount, addStrikes } from './Dashboard';
 
-function Display(){
-    return(
-        <div>
-            <h1>Current Player At Bat</h1>
-            <span/>
-            <h3>Ball</h3>
-            <span/>
-            <h4>{addBallCount}</h4>
-            <span/>
-            <span/>
-            <h3>Strikes</h3>
-            <span/>
-            <h4>{addStrikes}</h4>
-        </div>
-    );
+
+class Display extends React.Component {
+       
+    render() {
+        console.log(this)
+        return (
+            <div>
+               
+                <h1>{this.props.strike} Strike</h1>
+
+                <h1>{this.props.ball} Ball</h1>
+
+                <button onClick={() => {
+                    this.props.foulHandler();
+                    this.props.resetStrike();
+                }} >Foul</button>
+                <button onClick={() => {
+                    this.props.BallHandler();
+                    this.props.resetBall();
+                }}>Ball</button>
+                <button onClick={this.props.hitHandler}>Hit</button>
+                <button onClick={() => {
+                    this.props.strikeHandler();
+                    this.props.resetStrike();
+                }}>Strike</button>
+            </div>
+        )
+    }
+
 }
 
 export default Display;
+
